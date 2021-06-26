@@ -7,38 +7,44 @@ The origin of this library is sort the actions when I work, each project is a di
 
 You start initialising the _Maker_ class and adding the events:
 
-    use Marioquartz\MakingSessions\Maker;
-    use Marioquartz\MakingSessions\Event;
+```php
+use Marioquartz\MakingSessions\Maker;
+use Marioquartz\MakingSessions\Event;
 
-    $maker=new Maker();
-    foreach ($list as $item) {
-        $event=new Event();
-        $event
-            ->setStart($start) //start can be a timestamp or a DateInmutable
-            ->setDuration(60) // you can set the duration or use setEnd()
-            ->setType("example");
-        $maker->add($event);
-    }
+$maker=new Maker();
+foreach ($list as $item) {
+    $event=new Event();
+    $event
+        ->setStart($start) //start can be a timestamp or a DateInmutable
+        ->setDuration(60) // you can set the duration or use setEnd()
+        ->setType("example");
+    $maker->add($event);
+}
+```
 
 Generate the list of sessions with their events is easy:
 
-    $sessions=$maker->getSessions();
+```php
+$sessions=$maker->getSessions();
+```
 
 **But, what is a "_session_"?** An aggregate of events that are "near". In the context of this library: the difference between the end of an event and the start of next event is less than the variable "timeMerge". By default is 300 seconds (5 minutes). You can configure this behaviour with _$maker->setTimeMerge($seconds)_.
 
 _$sessions_ now have a list of sessions, that can be iterated:
 
-    foreach($sessions as $session) {
-        echo $session->getStart(); // Start of the session returned as timestamp
-        echo $session->getEnd(); //End as timestamp
-        echo $session->getDuration() // Duration in seconds
-        echo $session->getType(); // Type of the events inside
-        foreach ($session->getEvents() as $event) {
-            //events have the same functions: getStart(), getEnd(), getDuration() and getType()
-        }
+```php
+foreach($sessions as $session) {
+    echo $session->getStart(); // Start of the session returned as timestamp
+    echo $session->getEnd(); //End as timestamp
+    echo $session->getDuration() // Duration in seconds
+    echo $session->getType(); // Type of the events inside
+    foreach ($session->getEvents() as $event) {
+        //events have the same functions: getStart(), getEnd(), getDuration() and getType()
     }
+}
+```
 
 # Helping
 
 This is my first real library. I don't have much experience, so of course this library have a big room for make better code or usefulness.
-If you are a kind person, and you think have an idea or if you have a bug im all ears.
+If you are a kind person, and you think have an idea or if you have a bug, im all ears.
