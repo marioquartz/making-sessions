@@ -1,35 +1,39 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Marioquartz\MakingSessions;
 
 class ItemList implements \Countable, \Iterator
 {
-    protected array $list=array();
-    private int $cursor=0;
+    /**
+     * @var array<TimeBucket> $list
+     */
+    protected array $list = [];
+    private int $cursor = 0;
 
-    public function add(TimeBucket $item)
+    public function add(TimeBucket $item): void
     {
-        $this->list[]=$item;
-        $this->cursor=($this->count()-1);
+        $this->list[] = $item;
+        $this->cursor = $this->count() - 1;
     }
 
-    public function count():int
+    public function count(): int
     {
         return count($this->list);
     }
 
-    public function current():TimeBucket
+    public function current(): TimeBucket
     {
         return $this->list[$this->cursor];
     }
 
-    public function next()
+    public function next(): void
     {
         ++$this->cursor;
     }
 
-    public function key()
+    public function key(): int
     {
         return $this->cursor;
     }
@@ -39,33 +43,26 @@ class ItemList implements \Countable, \Iterator
         return isset($this->list[$this->cursor]);
     }
 
-    public function rewind()
+    public function rewind(): void
     {
-        $this->cursor=0;
+        $this->cursor = 0;
     }
 
-    public function last():TimeBucket
+    public function last(): TimeBucket
     {
-        $n=$this->count();
+        $n = $this->count();
         --$n;
         return $this->list[$n];
     }
 
-    /**
-     * @param ItemList $itemList
-     * @param string $itemType
-     * @param bool $inverse
-     *
-     * @return ItemList
-     */
-    public static function orderList(ItemList $itemList, string $itemType, bool $inverse = false): ItemList
+    public static function orderList(ItemList $list, string $type, bool $inverse = false): ItemList
     {
-        $position = array();
-        /** @var Event[] $newRow */
-        $newRow = array();
-        foreach (iterator_to_array($itemList) as $key => $item) {
+        $position = [];
+        /** @var array<Event> $newRow */
+        $newRow = [];
+        foreach (iterator_to_array($list) as $key => $item) {
             /** @var TimeBucket $item */
-            $position[$key]  = $item->getStart();
+            $position[$key] = $item->getStart();
             $newRow[$key] = $item;
         }
         if ($inverse) {
@@ -73,7 +70,7 @@ class ItemList implements \Countable, \Iterator
         } else {
             asort($position);
         }
-        $nameList="\Marioquartz\MakingSessions\\".$itemType."List";
+        $nameList = "\Marioquartz\MakingSessions\\" . $type . 'List';
         /** @var ItemList $returnList */
         $returnList = new $nameList();
         foreach ($position as $key => $pos) {
