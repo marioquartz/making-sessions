@@ -24,7 +24,9 @@ Generate the list of sessions with their events is easy:
 
     $sessions=$maker->getSessions();
 
-Sessions now have a list of sessions, that can be iterated:
+**But, what is a "_session_"?** An aggregate of events that are "near". In the context of this library: the difference between the end of an event and the start of next event is less than the variable "timeMerge". By default is 300 seconds (5 minutes). You can configure this behaviour with _$maker->setTimeMerge($seconds)_.
+
+_$sessions_ now have a list of sessions, that can be iterated:
 
     foreach($sessions as $session) {
         echo $session->getStart(); // Start of the session returned as timestamp
