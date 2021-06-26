@@ -3,7 +3,7 @@ This library has one goal: **organizing list of events in sessions**. You can ad
 
 The origin of this library is sort the actions when I work, each project is a different type of event. With this library now I can see how much time work in each project.
 
-#Using the library
+# Using the library
 
 You start initialising the _Maker_ class and adding the events:
 
