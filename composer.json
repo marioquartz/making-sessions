@@ -1,0 +1,28 @@
+{
+  "name": "marioquartz/making-sessions",
+  "type": "library",
+  "description": "Group events in sessions",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "marioquartz",
+      "email": "marioquartz@gmail.com"
+    }
+  ],
+  "require": {
+    "php":">=7.4"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^3.0"
+  },
+  "scripts": {
+    "check-style": "phpcs src",
+    "fix-style": "phpcbf src"
+  },
+  "autoload": {
+    "psr-4": {
+      "Marioquartz\\MakingSessions\\": "src/"
+    }
+  }
+}
