@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Marioquartz\MakingSessions;
 
@@ -9,7 +10,7 @@ class Session extends TimeBucket
 
     public function __construct()
     {
-        $this->events=new EventList();
+        $this->events = new EventList();
     }
 
     public function getEvents(): EventList

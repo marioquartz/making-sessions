@@ -1,4 +1,4 @@
 /.idea/
 vendor/
 composer.lock
-/phpinsights.php
+phpinsights.php

@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Marioquartz\MakingSessions;
 
@@ -7,69 +8,60 @@ class Maker
 {
     private ItemList $input;
     private ItemList $ordered;
-    private int $timeMerge=300;
+    private int $timeMerge = 300;
 
     public function __construct()
     {
-        $this->input=new EventList();
-        $this->ordered=new EventList();
+        $this->input = new EventList();
+        $this->ordered = new EventList();
     }
 
-    public function add(Event $event)
+    public function add(Event $event): void
     {
         $this->input->add($event);
     }
 
     /**
      * Establish the maximum time for two events being in the same Session
-     * @param int $timeMerge
      */
-    public function setTimeMerge(int $timeMerge)
+    public function setTimeMerge(int $timeMerge): void
     {
-        $this->timeMerge=$timeMerge;
+        $this->timeMerge = $timeMerge;
     }
 
     public function getSessions(): SessionList
     {
-        $this->ordered=$this->input->order();
-        $sessions=new SessionList();
+        $this->ordered = $this->input->order();
+        $sessions = new SessionList();
         foreach ($this->ordered as $event) {
-            if ($this->ordered->key()==0) {
-                $sessions=$this->addNewSession($sessions, $event);
+            if ($this->ordered->key() === 0) {
+                $sessions = $this->addNewSession($sessions, $event);
                 continue;
             }
             /**
-             * @var Session $sesion
+             * @var Session $session
              */
-            $sesion=$sessions->current();
+            $session = $sessions->current();
 
-            $last=$sesion->getEvents()->last();
-            $new=0;
-            if ($last->getType()!=$event->getType()) {
-                $new=1;
+            $last = $session->getEvents()->last();
+            $new = 0;
+            if (($last->getType() !== $event->getType()) ||
+                ($event->getStart() - $last->getEnd() > $this->timeMerge)) {
+                $new = 1;
             }
-            if (($event->getStart() - $last->getEnd())>$this->timeMerge) {
-                $new=1;
-            }
-            if ($new==1) {
-                $sessions=$this->addNewSession($sessions, $event);
+            if ($new === 1) {
+                $sessions = $this->addNewSession($sessions, $event);
                 continue;
             }
-            $sesion->getEvents()->add($event);
-            $sesion->setEnd($event->getEnd());
+            $session->getEvents()->add($event);
+            $session->setEnd($event->getEnd());
         }
         return $sessions;
     }
 
-    /**
-     * @param SessionList $sessions
-     * @param Event $event
-     *
-     * @return SessionList
-     */
     public function addNewSession(SessionList $sessions, Event $event): SessionList
     {
-        $tmp=new Session();
+        $tmp = new Session();
         $tmp
             ->setStart($event->getStart())
             ->setEnd($event->getEnd())

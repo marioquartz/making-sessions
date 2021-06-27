@@ -12,30 +12,33 @@ class TimeBucket
 
     /**
      * @param int|\DateTimeImmutable $start
+     *
+     * @return TimeBucket
      */
     public function setStart($start): TimeBucket
     {
-        if (($start instanceof \DateTimeImmutable)===true) {
-            $this->start = (int) $start->format('U');
-            return $this;
+        if ($start instanceof \DateTimeImmutable) {
+            $this->start=$start->format("U");
         }
-        $this->start = $start;
+        $this->start=$start;
         return $this;
     }
 
     /**
      * @param int|\DateTimeImmutable $end
+     *
+     * @return TimeBucket
      */
     public function setEnd($end): TimeBucket
     {
         if ($end instanceof \DateTimeImmutable) {
-            $end = (int) $end->format('U');
+            $this->end=$end->format("U");
         }
-        if ($end < $this->start) {
-            $end = $this->start;
+        if ($end<$this->start) {
+            $end=$this->start;
         }
-        $this->end = $end;
-        $this->duration = $this->end - $this->start;
+        $this->end=$end;
+        $this->duration=$this->end-$this->start;
         return $this;
     }
 
