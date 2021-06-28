@@ -44,12 +44,8 @@ class Maker
             $session = $sessions->current();
 
             $last = $session->getEvents()->last();
-            $new = 0;
             if (($last->getType() !== $event->getType()) ||
                 ($event->getStart() - $last->getEnd() > $this->timeMerge)) {
-                $new = 1;
-            }
-            if ($new === 1) {
                 $sessions = $this->addNewSession($sessions, $event);
                 continue;
             }
@@ -59,7 +55,7 @@ class Maker
         return $sessions;
     }
 
-    public function addNewSession(SessionList $sessions, Event $event): SessionList
+    private function addNewSession(SessionList $sessions, Event $event): SessionList
     {
         $tmp = new Session();
         $tmp
