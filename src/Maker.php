@@ -38,9 +38,7 @@ class Maker
                 $sessions = $this->addNewSession($sessions, $event);
                 continue;
             }
-            /**
-             * @var Session $session
-             */
+            /** @var Session $session */
             $session = $sessions->current();
 
             $last = $session->getEvents()->last();
