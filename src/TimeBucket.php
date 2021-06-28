@@ -8,16 +8,17 @@ class TimeBucket
 {
     private int $start;
     private int $end;
-    private int $duration = 0;
-    private string $type = 'default';
+    private int $duration;
+    private string $type;
 
     /**
      * @param int|\DateTimeImmutable $start
      */
     public function setStart($start): TimeBucket
     {
-        if ($start instanceof \DateTimeImmutable) {
+        if (($start instanceof \DateTimeImmutable) === true) {
             $this->start = (int) $start->format('U');
+            return $this;
         }
         $this->start = $start;
         return $this;
@@ -29,7 +30,7 @@ class TimeBucket
     public function setEnd($end): TimeBucket
     {
         if ($end instanceof \DateTimeImmutable) {
-            $this->end = (int) $end->format('U');
+            $end = (int) $end->format('U');
         }
         if ($end < $this->start) {
             $end = $this->start;
