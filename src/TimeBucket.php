@@ -6,10 +6,10 @@ namespace Marioquartz\MakingSessions;
 
 class TimeBucket
 {
-    private int $start;
-    private int $end;
-    private int $duration;
-    private string $type;
+    private int $start=0;
+    private int $end=0;
+    private int $duration=0;
+    private string $type="default";
 
     /**
      * @param int|\DateTimeImmutable $start

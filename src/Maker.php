@@ -6,8 +6,8 @@ namespace Marioquartz\MakingSessions;
 
 class Maker
 {
-    private ItemList $input;
-    private ItemList $ordered;
+    private EventList $input;
+    private EventList $ordered;
     private int $timeMerge = 300;
 
     public function __construct()
@@ -33,6 +33,7 @@ class Maker
     {
         $this->ordered = $this->input->order();
         $sessions = new SessionList();
+        /** @var Event $event */
         foreach ($this->ordered as $event) {
             if ($this->ordered->key() === 0) {
                 $sessions = $this->addNewSession($sessions, $event);
@@ -40,7 +41,7 @@ class Maker
             }
             /** @var Session $session */
             $session = $sessions->current();
-
+            /** @var  Session $last */
             $last = $session->getEvents()->last();
             if (($last->getType() !== $event->getType()) ||
                 ($event->getStart() - $last->getEnd() > $this->timeMerge)) {
