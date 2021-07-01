@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Marioquartz\MakingSessions;
 
+/**
+ * @psalm-consistent-constructor
+ */
 class ItemList implements \Countable, \Iterator
 {
     /**
@@ -70,6 +73,9 @@ class ItemList implements \Countable, \Iterator
         } else {
             asort($position);
         }
+        /**
+         * @var class-string<static> $nameList
+         */
         $nameList = "\Marioquartz\MakingSessions\\" . $type . 'List';
         /** @var ItemList $returnList */
         $returnList = new $nameList();
