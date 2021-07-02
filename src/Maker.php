@@ -41,7 +41,7 @@ class Maker
             }
             /** @var Session $session */
             $session = $sessions->current();
-            /** @var  Session $last */
+            /** @var  Event $last */
             $last = $session->getEvents()->last();
             if (($last->getType() !== $event->getType()) ||
                 ($event->getStart() - $last->getEnd() > $this->timeMerge)) {
