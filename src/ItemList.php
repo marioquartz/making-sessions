@@ -61,10 +61,9 @@ class ItemList implements \Countable, \Iterator
     public static function orderList(ItemList $list, string $type, bool $inverse = false): ItemList
     {
         $position = [];
-        /** @var array<Event> $newRow */
+        /** @var array<TimeBucket> $newRow */
         $newRow = [];
-        foreach (iterator_to_array($list) as $key => $item) {
-            /** @var TimeBucket $item */
+        foreach ($list as $key => $item) {
             $position[$key] = $item->getStart();
             $newRow[$key] = $item;
         }
@@ -73,9 +72,7 @@ class ItemList implements \Countable, \Iterator
         } else {
             asort($position);
         }
-        /**
-         * @var class-string<static> $nameList
-         */
+        /** @psalm-var class-string<static> $nameList */
         $nameList = "\Marioquartz\MakingSessions\\" . $type . 'List';
         /** @var ItemList $returnList */
         $returnList = new $nameList();
