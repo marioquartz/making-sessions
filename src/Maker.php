@@ -23,6 +23,7 @@ class Maker
 
     /**
      * Establish the maximum time for two events being in the same Session
+     * @param int $timeMerge time in seconds
      */
     public function setTimeMerge(int $timeMerge): void
     {
